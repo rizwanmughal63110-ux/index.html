@@ -1,0 +1,2414 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>TCL Invoice Manager</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f2f3f5;
+  color:#222;
+}
+
+:root{
+  --tcl:#e60012;
+  --black:#111111;
+  --border:#d9d9d9;
+  --light:#f7f7f7;
+  --green:#168a43;
+  --blue:#1769e0;
+}
+
+.topbar{
+  height:78px;
+  background:#111;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+
+.tcl-logo{
+  background:var(--tcl);
+  color:#fff;
+  font-size:40px;
+  font-weight:900;
+  letter-spacing:-2px;
+  padding:7px 18px;
+  border-radius:4px;
+  line-height:1;
+}
+
+.top-info{
+  font-size:14px;
+}
+
+.container{
+  max-width:1500px;
+  margin:auto;
+  padding:15px;
+}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:200px 1fr 520px;
+  gap:15px;
+  align-items:start;
+}
+
+.sidebar{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:10px;
+  min-height:500px;
+}
+
+.side-item{
+  padding:13px 12px;
+  border-radius:7px;
+  margin-bottom:7px;
+  font-size:14px;
+}
+
+.side-item.active{
+  background:var(--tcl);
+  color:#fff;
+  font-weight:bold;
+}
+
+.card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:15px;
+  box-shadow:0 2px 7px rgba(0,0,0,.07);
+  margin-bottom:14px;
+}
+
+h1{
+  margin:0 0 15px;
+  font-size:23px;
+  color:#c80010;
+}
+
+.section{
+  border:1px solid var(--border);
+  border-radius:7px;
+  margin-bottom:13px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.section-title{
+  background:#f7f7f7;
+  color:#c80010;
+  font-size:15px;
+  font-weight:bold;
+  padding:11px 13px;
+}
+
+.section-body{
+  padding:13px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:bold;
+  margin-bottom:5px;
+}
+
+input,
+textarea{
+  width:100%;
+  border:1px solid #cdd2d8;
+  border-radius:6px;
+  padding:10px;
+  font-family:inherit;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+textarea:focus{
+  border-color:var(--tcl);
+}
+
+textarea{
+  resize:vertical;
+}
+
+.items-wrap{
+  overflow-x:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:650px;
+}
+
+th{
+  background:#111;
+  color:#fff;
+  padding:9px 6px;
+  font-size:12px;
+}
+
+td{
+  border:1px solid #ddd;
+  padding:6px;
+  font-size:12px;
+}
+
+td input{
+  padding:7px;
+  font-size:12px;
+}
+
+.item-amount{
+  text-align:right;
+  font-weight:bold;
+  white-space:nowrap;
+}
+
+.btn{
+  border:0;
+  border-radius:6px;
+  padding:10px 14px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:13px;
+}
+
+.btn-red{
+  background:var(--tcl);
+  color:#fff;
+}
+
+.btn-black{
+  background:#111;
+  color:#fff;
+}
+
+.btn-green{
+  background:var(--green);
+  color:#fff;
+}
+
+.btn-blue{
+  background:var(--blue);
+  color:#fff;
+}
+
+.btn-gray{
+  background:#e5e7eb;
+  color:#222;
+}
+
+.btn-danger{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.adjust-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.summary-row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 6px;
+  border-bottom:1px solid #e3e3e3;
+  font-size:13px;
+}
+
+.summary-final{
+  background:var(--tcl);
+  color:#fff;
+  border-radius:6px;
+  font-size:18px;
+  font-weight:bold;
+  margin-top:6px;
+}
+
+.status{
+  display:none;
+  padding:10px;
+  border-radius:6px;
+  margin-bottom:12px;
+  font-size:13px;
+  font-weight:bold;
+  background:#e8f5e9;
+  color:#176b2c;
+}
+
+.saved-title{
+  margin-top:20px;
+  margin-bottom:9px;
+  font-size:16px;
+  font-weight:bold;
+}
+
+.saved-search{
+  margin-bottom:10px;
+}
+
+.saved-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  border:1px solid #ddd;
+  border-radius:6px;
+  padding:9px;
+  margin-bottom:7px;
+  font-size:12px;
+}
+
+.saved-info{
+  flex:1;
+}
+
+.saved-actions{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
+}
+
+.saved-actions button{
+  padding:6px 8px;
+  font-size:11px;
+}
+
+.preview-panel{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:8px;
+  box-shadow:0 2px 7px rgba(0,0,0,.07);
+  padding:12px;
+  position:sticky;
+  top:10px;
+}
+
+.preview-heading{
+  background:#111;
+  color:#fff;
+  border-radius:6px;
+  padding:11px;
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.invoice{
+  background:#fff;
+  border:1px solid #ddd;
+  padding:18px;
+}
+
+.invoice-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:3px solid var(--tcl);
+  padding-bottom:13px;
+}
+
+.invoice-logo{
+  background:var(--tcl);
+  color:#fff;
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-2px;
+  padding:7px 18px;
+  border-radius:4px;
+  display:inline-block;
+  height:max-content;
+}
+
+.company-info{
+  text-align:right;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.invoice-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  margin:17px 0;
+}
+
+.invoice-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.meta-box{
+  border:1px solid #ddd;
+  padding:9px;
+  font-size:11px;
+  min-height:48px;
+}
+
+.meta-box strong{
+  display:block;
+  color:#555;
+  margin-bottom:4px;
+}
+
+.invoice-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.invoice-table th{
+  background:var(--tcl);
+  color:#fff;
+  padding:8px 5px;
+  font-size:10px;
+}
+
+.invoice-table td{
+  border:1px solid #ddd;
+  padding:7px 5px;
+  font-size:10px;
+}
+
+.invoice-total-box{
+  width:300px;
+  max-width:100%;
+  margin-left:auto;
+  margin-top:13px;
+}
+
+.invoice-total-row{
+  display:flex;
+  justify-content:space-between;
+  padding:7px;
+  border-bottom:1px solid #ddd;
+  font-size:11px;
+}
+
+.invoice-grand{
+  background:var(--tcl);
+  color:#fff;
+  font-size:16px!important;
+  font-weight:bold;
+}
+
+.warranty{
+  border:1px solid #ddd;
+  margin-top:15px;
+  padding:10px;
+  font-size:10px;
+  min-height:45px;
+}
+
+.invoice-footer{
+  border-top:1px solid #ddd;
+  text-align:center;
+  color:#777;
+  margin-top:20px;
+  padding-top:10px;
+  font-size:9px;
+}
+
+.empty{
+  text-align:center;
+  padding:15px;
+  color:#888;
+  font-size:12px;
+}
+
+@media(max-width:1150px){
+  .main-grid{
+    grid-template-columns:180px 1fr;
+  }
+
+  .preview-panel{
+    grid-column:1/-1;
+    position:static;
+  }
+}
+
+@media(max-width:800px){
+  .main-grid{
+    display:block;
+  }
+
+  .sidebar{
+    display:none;
+  }
+
+  .grid,
+  .adjust-grid{
+    grid-template-columns:1fr;
+  }
+
+  .top-info{
+    display:none;
+  }
+
+  .topbar{
+    justify-content:center;
+  }
+
+  .preview-panel{
+    margin-top:15px;
+  }
+
+  .invoice{
+    padding:12px;
+  }
+}
+
+@media print{
+  body{
+    background:#fff;
+  }
+
+  .topbar,
+  .sidebar,
+  .card,
+  .preview-heading{
+    display:none!important;
+  }
+
+  .container{
+    padding:0;
+    margin:0;
+  }
+
+  .main-grid{
+    display:block;
+  }
+
+  .preview-panel{
+    display:block!important;
+    border:0;
+    box-shadow:none;
+    padding:0;
+  }
+
+  .invoice{
+    border:0;
+  }
+
+  @page{
+    size:A4;
+    margin:10mm;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="tcl-logo">TCL</div>
+
+  <div class="top-info">
+    <span id="topDate"></span>
+    &nbsp;&nbsp;
+    <span id="topTime"></span>
+  </div>
+</header>
+
+
+<div class="container">
+
+<div class="main-grid">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+  <div class="side-item active">
+    ▣ &nbsp; Create Invoice
+  </div>
+
+  <div class="side-item">
+    ▤ &nbsp; Saved Invoices
+  </div>
+
+  <div class="side-item">
+    ⚙ &nbsp; Invoice Manager
+  </div>
+
+  <div style="text-align:center;margin-top:200px">
+
+    <div class="tcl-logo" style="font-size:28px;display:inline-block">
+      TCL
+    </div>
+
+    <div style="font-size:11px;color:#777;margin-top:7px">
+      Invoice Manager
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- MAIN FORM -->
+<main>
+
+<div class="card">
+
+<h1>▤ &nbsp; Create TCL Invoice</h1>
+
+<div id="statusMsg" class="status"></div>
+
+
+<!-- CUSTOMER INFORMATION -->
+<div class="section">
+
+<div class="section-title">
+👤 &nbsp; Customer Information
+</div>
+
+<div class="section-body">
+
+<div class="grid">
+
+<div class="field">
+<label>Customer Name *</label>
+<input
+  id="customerName"
+  type="text"
+  placeholder="Enter customer name">
+</div>
+
+<div class="field">
+<label>Customer Phone</label>
+<input
+  id="customerPhone"
+  type="tel"
+  placeholder="03XXXXXXXXX">
+</div>
+
+<div class="field">
+<label>Customer Address</label>
+<input
+  id="customerAddress"
+  type="text"
+  placeholder="Enter customer address">
+</div>
+
+<div class="field">
+<label>Invoice Date *</label>
+<input
+  id="invoiceDate"
+  type="date">
+</div>
+
+<div class="field">
+<label>Invoice Time *</label>
+<input
+  id="invoiceTime"
+  type="time">
+</div>
+
+</div>
+
+</div>
+</div>
+
+
+<!-- ITEMS -->
+<div class="section">
+
+<div class="section-title">
+▣ &nbsp; Products / Parts / Services
+</div>
+
+<div class="section-body">
+
+<div class="items-wrap">
+
+<table>
+
+<thead>
+<tr>
+<th style="width:35px">#</th>
+<th>Description</th>
+<th style="width:80px">Qty</th>
+<th style="width:110px">Rate (Rs)</th>
+<th style="width:120px">Amount (Rs)</th>
+<th style="width:65px">Action</th>
+</tr>
+</thead>
+
+<tbody id="itemsBody"></tbody>
+
+</table>
+
+</div>
+
+<button
+  type="button"
+  class="btn btn-red"
+  style="margin-top:10px"
+  onclick="addItem()">
+
+＋ Add Item
+
+</button>
+
+</div>
+</div>
+
+
+<!-- ADJUSTMENTS -->
+<div class="adjust-grid">
+
+<div class="section">
+
+<div class="section-title">
+Amount Adjustments
+</div>
+
+<div class="section-body">
+
+<div class="field">
+<label>Discount (Rs)</label>
+<input
+  id="discount"
+  type="number"
+  min="0"
+  value="0"
+  oninput="calculateTotal()">
+</div>
+
+<br>
+
+<div class="field">
+<label>Additional Charges (Rs)</label>
+<input
+  id="additionalCharges"
+  type="number"
+  min="0"
+  value="0"
+  oninput="calculateTotal()">
+</div>
+
+<br>
+
+<div class="field">
+<label style="color:#c90010">
+Customer Purchase / Exchange Deduction (Rs)
+</label>
+
+<input
+  id="exchangeDeduction"
+  type="number"
+  min="0"
+  value="0"
+  oninput="calculateTotal()">
+
+</div>
+
+</div>
+</div>
+
+
+<div class="card" style="margin:0">
+
+<div class="summary-row">
+<span>Subtotal</span>
+<strong id="subtotalText">Rs 0</strong>
+</div>
+
+<div class="summary-row">
+<span>Discount</span>
+<strong id="discountText">- Rs 0</strong>
+</div>
+
+<div class="summary-row">
+<span>Additional Charges</span>
+<strong id="additionalText">+ Rs 0</strong>
+</div>
+
+<div class="summary-row">
+<span>Exchange / Purchase Deduction</span>
+<strong id="deductionText">- Rs 0</strong>
+</div>
+
+<div class="summary-row summary-final">
+<span>FINAL TOTAL</span>
+<strong id="totalText">Rs 0</strong>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- NOTES -->
+<div class="section">
+
+<div class="section-title">
+🛡 &nbsp; Warranty / Additional Note
+</div>
+
+<div class="section-body">
+
+<textarea
+  id="notes"
+  rows="4"
+  placeholder="Example: 5 year pipe warranty"
+></textarea>
+
+</div>
+
+</div>
+
+
+<!-- BUTTONS -->
+<div class="actions">
+
+<button
+  type="button"
+  class="btn btn-green"
+  onclick="saveInvoice()">
+  ▣ Save Invoice
+</button>
+
+<button
+  type="button"
+  class="btn btn-red"
+  onclick="updatePreview()">
+  ◉ Preview Invoice
+</button>
+
+<button
+  type="button"
+  class="btn btn-black"
+  onclick="printInvoice()">
+  🖨 Print / Save PDF
+</button>
+
+<button
+  type="button"
+  class="btn btn-green"
+  onclick="whatsappInvoice()">
+  ◉ WhatsApp
+</button>
+
+<button
+  type="button"
+  class="btn btn-gray"
+  onclick="clearForm()">
+  ↻ Clear
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SAVED INVOICES -->
+<div class="card">
+
+<div class="saved-title">
+▤ Saved Invoices
+</div>
+
+<input
+  id="searchInvoice"
+  class="saved-search"
+  type="search"
+  placeholder="Search invoice number or customer name..."
+  oninput="renderSavedInvoices()">
+
+<div id="savedInvoices"></div>
+
+</div>
+
+</main>
+
+
+<!-- PREVIEW -->
+<section class="preview-panel">
+
+<div class="preview-heading">
+◉ Invoice Preview
+</div>
+
+<div id="invoicePreview" class="invoice">
+
+<!-- PREVIEW GENERATED BY JAVASCRIPT -->
+
+</div>
+
+</section>
+
+</div>
+</div>
+
+
+<script>
+
+/* =========================================================
+   TCL INVOICE MANAGER
+   Separate storage key from Haier
+========================================================= */
+
+const STORAGE_KEY = "tcl_invoice_manager_v1";
+
+let items = [];
+
+let currentInvoiceNo = "";
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const customerNameEl =
+  document.getElementById("customerName");
+
+const customerPhoneEl =
+  document.getElementById("customerPhone");
+
+const customerAddressEl =
+  document.getElementById("customerAddress");
+
+const invoiceDateEl =
+  document.getElementById("invoiceDate");
+
+const invoiceTimeEl =
+  document.getElementById("invoiceTime");
+
+const discountEl =
+  document.getElementById("discount");
+
+const additionalChargesEl =
+  document.getElementById("additionalCharges");
+
+const exchangeDeductionEl =
+  document.getElementById("exchangeDeduction");
+
+const notesEl =
+  document.getElementById("notes");
+
+const itemsBody =
+  document.getElementById("itemsBody");
+
+const invoicePreview =
+  document.getElementById("invoicePreview");
+
+const statusMsg =
+  document.getElementById("statusMsg");
+
+
+/* =========================================================
+   DATE / TIME
+========================================================= */
+
+function pad(n){
+  return String(n).padStart(2,"0");
+}
+
+function setCurrentDateTime(){
+
+  const now = new Date();
+
+  const date =
+    now.getFullYear() +
+    "-" +
+    pad(now.getMonth()+1) +
+    "-" +
+    pad(now.getDate());
+
+  const time =
+    pad(now.getHours()) +
+    ":" +
+    pad(now.getMinutes());
+
+  invoiceDateEl.value = date;
+  invoiceTimeEl.value = time;
+
+  updateTopClock();
+
+}
+
+
+/* =========================================================
+   TOP CLOCK
+========================================================= */
+
+function updateTopClock(){
+
+  const now = new Date();
+
+  document.getElementById("topDate").textContent =
+    now.toLocaleDateString("en-PK",{
+      day:"2-digit",
+      month:"2-digit",
+      year:"numeric"
+    });
+
+  document.getElementById("topTime").textContent =
+    now.toLocaleTimeString("en-PK",{
+      hour:"2-digit",
+      minute:"2-digit",
+      second:"2-digit"
+    });
+
+}
+
+setInterval(updateTopClock,1000);
+
+
+/* =========================================================
+   ESCAPE HTML
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
+   NUMBER FORMAT
+========================================================= */
+
+function money(value){
+
+  return Number(value || 0)
+    .toLocaleString("en-PK");
+
+}
+
+
+/* =========================================================
+   INVOICE NUMBER
+========================================================= */
+
+function getInvoices(){
+
+  try{
+
+    return JSON.parse(
+      localStorage.getItem(STORAGE_KEY) || "[]"
+    );
+
+  }catch(e){
+
+    return [];
+
+  }
+
+}
+
+
+function nextInvoiceNumber(){
+
+  const invoices = getInvoices();
+
+  let max = 0;
+
+  invoices.forEach(inv => {
+
+    const match =
+      String(inv.invoiceNo || "")
+        .match(/(\d+)$/);
+
+    if(match){
+
+      const number =
+        parseInt(match[1],10);
+
+      if(number > max){
+        max = number;
+      }
+
+    }
+
+  });
+
+  return "TCL-" +
+    String(max + 1).padStart(5,"0");
+
+}
+
+
+/* =========================================================
+   ADD ITEM
+========================================================= */
+
+function addItem(
+  description="",
+  qty=1,
+  rate=0
+){
+
+  items.push({
+    id:Date.now() + Math.random(),
+    description:description,
+    qty:qty,
+    rate:rate
+  });
+
+  renderItems();
+
+  calculateTotal();
+
+}
+
+
+/* =========================================================
+   REMOVE ITEM
+========================================================= */
+
+function removeItem(index){
+
+  if(items.length <= 1){
+
+    items[0] = {
+      id:Date.now(),
+      description:"",
+      qty:1,
+      rate:0
+    };
+
+  }else{
+
+    items.splice(index,1);
+
+  }
+
+  renderItems();
+
+  calculateTotal();
+
+}
+
+
+/* =========================================================
+   RENDER ITEMS
+========================================================= */
+
+function renderItems(){
+
+  itemsBody.innerHTML = "";
+
+  items.forEach((item,index)=>{
+
+    const qty =
+      Number(item.qty) || 0;
+
+    const rate =
+      Number(item.rate) || 0;
+
+    const amount =
+      qty * rate;
+
+    const tr =
+      document.createElement("tr");
+
+    tr.innerHTML = `
+
+      <td style="text-align:center">
+        ${index + 1}
+      </td>
+
+      <td>
+        <input
+          type="text"
+          value="${escapeHTML(item.description)}"
+          placeholder="Part / Service / Product"
+          oninput="updateItem(${index},'description',this.value)">
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          value="${qty}"
+          oninput="updateItem(${index},'qty',this.value)">
+      </td>
+
+      <td>
+        <input
+          type="number"
+          min="0"
+          value="${rate}"
+          oninput="updateItem(${index},'rate',this.value)">
+      </td>
+
+      <td class="item-amount">
+        Rs ${money(amount)}
+      </td>
+
+      <td style="text-align:center">
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          style="padding:6px 8px"
+          onclick="removeItem(${index})">
+          ×
+        </button>
+
+      </td>
+
+    `;
+
+    itemsBody.appendChild(tr);
+
+  });
+
+}
+
+
+/* =========================================================
+   UPDATE ITEM
+========================================================= */
+
+function updateItem(index,key,value){
+
+  if(!items[index]) return;
+
+  if(key === "qty" || key === "rate"){
+
+    items[index][key] =
+      Number(value) || 0;
+
+  }else{
+
+    items[index][key] = value;
+
+  }
+
+  renderItems();
+
+  calculateTotal();
+
+}
+
+
+/* =========================================================
+   CALCULATE TOTAL
+========================================================= */
+
+function calculateTotal(){
+
+  let subtotal = 0;
+
+  items.forEach(item => {
+
+    subtotal +=
+      (Number(item.qty) || 0) *
+      (Number(item.rate) || 0);
+
+  });
+
+  const discount =
+    Math.max(
+      0,
+      Number(discountEl.value) || 0
+    );
+
+  const additional =
+    Math.max(
+      0,
+      Number(additionalChargesEl.value) || 0
+    );
+
+  const deduction =
+    Math.max(
+      0,
+      Number(exchangeDeductionEl.value) || 0
+    );
+
+  let total =
+    subtotal -
+    discount +
+    additional -
+    deduction;
+
+  if(total < 0){
+    total = 0;
+  }
+
+  document.getElementById("subtotalText")
+    .textContent =
+    "Rs " + money(subtotal);
+
+  document.getElementById("discountText")
+    .textContent =
+    "- Rs " + money(discount);
+
+  document.getElementById("additionalText")
+    .textContent =
+    "+ Rs " + money(additional);
+
+  document.getElementById("deductionText")
+    .textContent =
+    "- Rs " + money(deduction);
+
+  document.getElementById("totalText")
+    .textContent =
+    "Rs " + money(total);
+
+  return {
+    subtotal,
+    discount,
+    additional,
+    deduction,
+    total
+  };
+
+}
+
+
+/* =========================================================
+   BUILD INVOICE OBJECT
+========================================================= */
+
+function collectInvoice(){
+
+  const totals =
+    calculateTotal();
+
+  const invoiceNo =
+    currentInvoiceNo || nextInvoiceNumber();
+
+  return {
+
+    invoiceNo:invoiceNo,
+
+    customerName:
+      customerNameEl.value.trim(),
+
+    customerPhone:
+      customerPhoneEl.value.trim(),
+
+    customerAddress:
+      customerAddressEl.value.trim(),
+
+    date:
+      invoiceDateEl.value,
+
+    time:
+      invoiceTimeEl.value,
+
+    items:
+      items.map(item => ({
+        description:
+          item.description || "",
+        qty:
+          Number(item.qty) || 0,
+        rate:
+          Number(item.rate) || 0,
+        amount:
+          (Number(item.qty) || 0) *
+          (Number(item.rate) || 0)
+      })),
+
+    subtotal:
+      totals.subtotal,
+
+    discount:
+      totals.discount,
+
+    additional:
+      totals.additional,
+
+    deduction:
+      totals.deduction,
+
+    total:
+      totals.total,
+
+    notes:
+      notesEl.value.trim(),
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+}
+
+
+/* =========================================================
+   SAVE INVOICE
+========================================================= */
+
+function saveInvoice(){
+
+  const name =
+    customerNameEl.value.trim();
+
+  if(!name){
+
+    alert("Please enter customer name.");
+
+    customerNameEl.focus();
+
+    return;
+
+  }
+
+  if(!invoiceDateEl.value){
+
+    alert("Please select invoice date.");
+
+    return;
+
+  }
+
+  if(!invoiceTimeEl.value){
+
+    alert("Please select invoice time.");
+
+    return;
+
+  }
+
+  const invoice =
+    collectInvoice();
+
+  const invoices =
+    getInvoices();
+
+  const existingIndex =
+    invoices.findIndex(
+      x => x.invoiceNo === invoice.invoiceNo
+    );
+
+  if(existingIndex >= 0){
+
+    invoices[existingIndex] =
+      invoice;
+
+  }else{
+
+    invoices.unshift(invoice);
+
+  }
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(invoices)
+  );
+
+  currentInvoiceNo =
+    invoice.invoiceNo;
+
+  showStatus(
+    "Invoice " +
+    invoice.invoiceNo +
+    " saved successfully."
+  );
+
+  renderSavedInvoices();
+
+  updatePreview();
+
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
+
+function showStatus(message){
+
+  statusMsg.textContent =
+    message;
+
+  statusMsg.style.display =
+    "block";
+
+  setTimeout(()=>{
+    statusMsg.style.display =
+      "none";
+  },3000);
+
+}
+
+
+/* =========================================================
+   BUILD PREVIEW
+========================================================= */
+
+function buildInvoiceHTML(invoice){
+
+  const itemRows =
+    invoice.items.map((item,index)=>`
+
+      <tr>
+
+        <td style="text-align:center">
+          ${index + 1}
+        </td>
+
+        <td>
+          ${escapeHTML(item.description)}
+        </td>
+
+        <td style="text-align:center">
+          ${item.qty}
+        </td>
+
+        <td style="text-align:right">
+          Rs ${money(item.rate)}
+        </td>
+
+        <td style="text-align:right">
+          Rs ${money(item.amount)}
+        </td>
+
+      </tr>
+
+  `).join("");
+
+  const note =
+    invoice.notes
+      ? escapeHTML(invoice.notes)
+      : "No additional note.";
+
+  return `
+
+    <div class="invoice-top">
+
+      <div>
+        <div class="invoice-logo">
+          TCL
+        </div>
+      </div>
+
+      <div class="company-info">
+
+        <strong style="font-size:14px">
+          TCL
+        </strong><br>
+
+        Invoice / Sales Record<br>
+        Customer Service &amp; Sales
+
+      </div>
+
+    </div>
+
+
+    <div class="invoice-title">
+      INVOICE
+    </div>
+
+
+    <div class="invoice-meta">
+
+      <div class="meta-box">
+        <strong>Invoice Number</strong>
+        ${escapeHTML(invoice.invoiceNo)}
+      </div>
+
+      <div class="meta-box">
+        <strong>Date</strong>
+        ${escapeHTML(invoice.date)}
+      </div>
+
+      <div class="meta-box">
+        <strong>Customer Name</strong>
+        ${escapeHTML(invoice.customerName)}
+      </div>
+
+      <div class="meta-box">
+        <strong>Time</strong>
+        ${escapeHTML(invoice.time)}
+      </div>
+
+      <div class="meta-box">
+        <strong>Customer Phone</strong>
+        ${escapeHTML(invoice.customerPhone || "-")}
+      </div>
+
+      <div class="meta-box">
+        <strong>Customer Address</strong>
+        ${escapeHTML(invoice.customerAddress || "-")}
+      </div>
+
+    </div>
+
+
+    <table class="invoice-table">
+
+      <thead>
+
+        <tr>
+          <th>#</th>
+          <th>Description</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${
+          itemRows ||
+          `
+          <tr>
+            <td colspan="5"
+                style="text-align:center">
+              No items
+            </td>
+          </tr>
+          `
+        }
+
+      </tbody>
+
+    </table>
+
+
+    <div class="invoice-total-box">
+
+      <div class="invoice-total-row">
+        <span>Subtotal</span>
+        <strong>Rs ${money(invoice.subtotal)}</strong>
+      </div>
+
+      <div class="invoice-total-row">
+        <span>Discount</span>
+        <strong>- Rs ${money(invoice.discount)}</strong>
+      </div>
+
+      <div class="invoice-total-row">
+        <span>Additional Charges</span>
+        <strong>+ Rs ${money(invoice.additional)}</strong>
+      </div>
+
+      <div class="invoice-total-row">
+        <span>Exchange / Purchase Deduction</span>
+        <strong>- Rs ${money(invoice.deduction)}</strong>
+      </div>
+
+      <div class="invoice-total-row invoice-grand">
+        <span>FINAL TOTAL</span>
+        <strong>Rs ${money(invoice.total)}</strong>
+      </div>
+
+    </div>
+
+
+    <div class="warranty">
+
+      <strong>Warranty / Additional Note:</strong><br>
+
+      ${note}
+
+    </div>
+
+
+    <div class="invoice-footer">
+
+      Thank you for your business.<br>
+      This invoice is generated by TCL Invoice Manager.
+
+    </div>
+
+  `;
+
+}
+
+
+/* =========================================================
+   UPDATE PREVIEW
+========================================================= */
+
+function updatePreview(){
+
+  const invoice =
+    collectInvoice();
+
+  invoicePreview.innerHTML =
+    buildInvoiceHTML(invoice);
+
+}
+
+
+/* =========================================================
+   PRINT / SAVE PDF
+========================================================= */
+
+function printInvoice(){
+
+  const name =
+    customerNameEl.value.trim();
+
+  if(!name){
+
+    alert("Please enter customer name first.");
+
+    customerNameEl.focus();
+
+    return;
+
+  }
+
+  const invoice =
+    collectInvoice();
+
+  invoicePreview.innerHTML =
+    buildInvoiceHTML(invoice);
+
+
+  const printWindow =
+    window.open(
+      "",
+      "_blank",
+      "width=900,height=900"
+    );
+
+  if(!printWindow){
+
+    alert(
+      "Print window was blocked. Please allow pop-ups for this site."
+    );
+
+    return;
+
+  }
+
+
+  const printHTML = `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+${escapeHTML(invoice.invoiceNo)} - TCL Invoice
+</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:20px;
+  background:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  color:#222;
+}
+
+.invoice{
+  background:#fff;
+  border:1px solid #ddd;
+  padding:18px;
+  max-width:850px;
+  margin:auto;
+}
+
+.invoice-top{
+  display:flex;
+  justify-content:space-between;
+  gap:15px;
+  border-bottom:3px solid #e60012;
+  padding-bottom:13px;
+}
+
+.invoice-logo{
+  background:#e60012;
+  color:#fff;
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-2px;
+  padding:7px 18px;
+  border-radius:4px;
+  display:inline-block;
+}
+
+.company-info{
+  text-align:right;
+  font-size:11px;
+  line-height:1.6;
+}
+
+.invoice-title{
+  text-align:center;
+  font-size:26px;
+  font-weight:900;
+  margin:17px 0;
+}
+
+.invoice-meta{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.meta-box{
+  border:1px solid #ddd;
+  padding:9px;
+  font-size:11px;
+}
+
+.meta-box strong{
+  display:block;
+  color:#555;
+  margin-bottom:4px;
+}
+
+.invoice-table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+.invoice-table th{
+  background:#e60012;
+  color:#fff;
+  padding:8px 5px;
+  font-size:10px;
+}
+
+.invoice-table td{
+  border:1px solid #ddd;
+  padding:7px 5px;
+  font-size:10px;
+}
+
+.invoice-total-box{
+  width:300px;
+  max-width:100%;
+  margin-left:auto;
+  margin-top:13px;
+}
+
+.invoice-total-row{
+  display:flex;
+  justify-content:space-between;
+  padding:7px;
+  border-bottom:1px solid #ddd;
+  font-size:11px;
+}
+
+.invoice-grand{
+  background:#e60012;
+  color:#fff;
+  font-size:16px!important;
+  font-weight:bold;
+}
+
+.warranty{
+  border:1px solid #ddd;
+  margin-top:15px;
+  padding:10px;
+  font-size:10px;
+}
+
+.invoice-footer{
+  border-top:1px solid #ddd;
+  text-align:center;
+  color:#777;
+  margin-top:20px;
+  padding-top:10px;
+  font-size:9px;
+}
+
+@page{
+  size:A4;
+  margin:10mm;
+}
+
+@media print{
+
+  body{
+    padding:0;
+  }
+
+  .invoice{
+    border:0;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="invoice">
+
+${buildInvoiceHTML(invoice)}
+
+</div>
+
+<script>
+
+window.onload = function(){
+
+  setTimeout(function(){
+
+    window.focus();
+    window.print();
+
+  },300);
+
+};
+
+window.onafterprint = function(){
+
+  setTimeout(function(){
+
+    window.close();
+
+  },300);
+
+};
+
+<\/script>
+
+</body>
+
+</html>
+
+`;
+
+
+  printWindow.document.open();
+
+  printWindow.document.write(
+    printHTML
+  );
+
+  printWindow.document.close();
+
+}
+
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+function whatsappInvoice(){
+
+  const invoice =
+    collectInvoice();
+
+  if(!invoice.customerName){
+
+    alert("Please enter customer name first.");
+
+    customerNameEl.focus();
+
+    return;
+
+  }
+
+  const lines = [];
+
+  lines.push(
+    "*TCL INVOICE*"
+  );
+
+  lines.push(
+    "Invoice No: " +
+    invoice.invoiceNo
+  );
+
+  lines.push(
+    "Date: " +
+    invoice.date
+  );
+
+  lines.push(
+    "Time: " +
+    invoice.time
+  );
+
+  lines.push("");
+
+  lines.push(
+    "*Customer:* " +
+    invoice.customerName
+  );
+
+  if(invoice.customerPhone){
+
+    lines.push(
+      "Phone: " +
+      invoice.customerPhone
+    );
+
+  }
+
+  if(invoice.customerAddress){
+
+    lines.push(
+      "Address: " +
+      invoice.customerAddress
+    );
+
+  }
+
+  lines.push("");
+
+  lines.push("*Items:*");
+
+  invoice.items.forEach((item,index)=>{
+
+    if(
+      item.description ||
+      item.qty ||
+      item.rate
+    ){
+
+      lines.push(
+        (index + 1) +
+        ". " +
+        (item.description || "Item") +
+        " × " +
+        item.qty +
+        " = Rs " +
+        money(item.amount)
+      );
+
+    }
+
+  });
+
+  lines.push("");
+
+  lines.push(
+    "Subtotal: Rs " +
+    money(invoice.subtotal)
+  );
+
+  if(invoice.discount){
+
+    lines.push(
+      "Discount: - Rs " +
+      money(invoice.discount)
+    );
+
+  }
+
+  if(invoice.additional){
+
+    lines.push(
+      "Additional Charges: + Rs " +
+      money(invoice.additional)
+    );
+
+  }
+
+  if(invoice.deduction){
+
+    lines.push(
+      "Exchange Deduction: - Rs " +
+      money(invoice.deduction)
+    );
+
+  }
+
+  lines.push(
+    "*FINAL TOTAL: Rs " +
+    money(invoice.total) +
+    "*"
+  );
+
+  if(invoice.notes){
+
+    lines.push("");
+
+    lines.push(
+      "*Warranty / Note:*"
+    );
+
+    lines.push(
+      invoice.notes
+    );
+
+  }
+
+  lines.push("");
+
+  lines.push(
+    "Thank you for your business."
+  );
+
+  const text =
+    encodeURIComponent(
+      lines.join("\n")
+    );
+
+  window.open(
+    "https://wa.me/?text=" + text,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   LOAD INVOICE
+========================================================= */
+
+function loadInvoice(invoiceNo){
+
+  const invoices =
+    getInvoices();
+
+  const invoice =
+    invoices.find(
+      x => x.invoiceNo === invoiceNo
+    );
+
+  if(!invoice){
+
+    alert("Invoice not found.");
+
+    return;
+
+  }
+
+  currentInvoiceNo =
+    invoice.invoiceNo;
+
+  customerNameEl.value =
+    invoice.customerName || "";
+
+  customerPhoneEl.value =
+    invoice.customerPhone || "";
+
+  customerAddressEl.value =
+    invoice.customerAddress || "";
+
+  invoiceDateEl.value =
+    invoice.date || "";
+
+  invoiceTimeEl.value =
+    invoice.time || "";
+
+  discountEl.value =
+    invoice.discount || 0;
+
+  additionalChargesEl.value =
+    invoice.additional || 0;
+
+  exchangeDeductionEl.value =
+    invoice.deduction || 0;
+
+  notesEl.value =
+    invoice.notes || "";
+
+  items =
+    (invoice.items || []).map(item => ({
+      id:Date.now() + Math.random(),
+      description:item.description || "",
+      qty:Number(item.qty) || 0,
+      rate:Number(item.rate) || 0
+    }));
+
+  if(items.length === 0){
+
+    items = [{
+      id:Date.now(),
+      description:"",
+      qty:1,
+      rate:0
+    }];
+
+  }
+
+  renderItems();
+
+  calculateTotal();
+
+  invoicePreview.innerHTML =
+    buildInvoiceHTML(invoice);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  showStatus(
+    "Invoice " +
+    invoice.invoiceNo +
+    " loaded."
+  );
+
+}
+
+
+/* =========================================================
+   DELETE INVOICE
+========================================================= */
+
+function deleteInvoice(invoiceNo){
+
+  if(
+    !confirm(
+      "Delete invoice " +
+      invoiceNo +
+      "?"
+    )
+  ){
+
+    return;
+
+  }
+
+  let invoices =
+    getInvoices();
+
+  invoices =
+    invoices.filter(
+      x => x.invoiceNo !== invoiceNo
+    );
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(invoices)
+  );
+
+  if(currentInvoiceNo === invoiceNo){
+
+    currentInvoiceNo = "";
+
+  }
+
+  renderSavedInvoices();
+
+  showStatus(
+    "Invoice deleted."
+  );
+
+}
+
+
+/* =========================================================
+   RENDER SAVED INVOICES
+========================================================= */
+
+function renderSavedInvoices(){
+
+  const box =
+    document.getElementById(
+      "savedInvoices"
+    );
+
+  const search =
+    (
+      document.getElementById(
+        "searchInvoice"
+      ).value || ""
+    )
+    .trim()
+    .toLowerCase();
+
+  const invoices =
+    getInvoices();
+
+  const filtered =
+    invoices.filter(invoice => {
+
+      const no =
+        String(
+          invoice.invoiceNo || ""
+        ).toLowerCase();
+
+      const name =
+        String(
+          invoice.customerName || ""
+        ).toLowerCase();
+
+      return (
+        no.includes(search) ||
+        name.includes(search)
+      );
+
+    });
+
+  if(filtered.length === 0){
+
+    box.innerHTML =
+      `<div class="empty">
+        No saved invoices found.
+      </div>`;
+
+    return;
+
+  }
+
+  box.innerHTML =
+    filtered.map(invoice => `
+
+      <div class="saved-row">
+
+        <div class="saved-info">
+
+          <strong>
+            ${escapeHTML(invoice.invoiceNo)}
+          </strong>
+
+          <br>
+
+          ${escapeHTML(invoice.customerName || "No name")}
+
+          <br>
+
+          ${escapeHTML(invoice.date || "")}
+
+          &nbsp; | &nbsp;
+
+          Rs ${money(invoice.total)}
+
+        </div>
+
+        <div class="saved-actions">
+
+          <button
+            type="button"
+            class="btn btn-blue"
+            onclick="loadInvoice('${escapeHTML(invoice.invoiceNo)}')">
+            Open
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-danger"
+            onclick="deleteInvoice('${escapeHTML(invoice.invoiceNo)}')">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    `).join("");
+
+}
+
+
+/* =========================================================
+   CLEAR FORM
+========================================================= */
+
+function clearForm(){
+
+  if(
+    !confirm(
+      "Clear the current invoice?"
+    )
+  ){
+
+    return;
+
+  }
+
+  currentInvoiceNo = "";
+
+  customerNameEl.value = "";
+
+  customerPhoneEl.value = "";
+
+  customerAddressEl.value = "";
+
+  discountEl.value = 0;
+
+  additionalChargesEl.value = 0;
+
+  exchangeDeductionEl.value = 0;
+
+  notesEl.value = "";
+
+  setCurrentDateTime();
+
+  items = [{
+    id:Date.now(),
+    description:"",
+    qty:1,
+    rate:0
+  }];
+
+  renderItems();
+
+  calculateTotal();
+
+  updatePreview();
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+setCurrentDateTime();
+
+items = [{
+  id:Date.now(),
+  description:"",
+  qty:1,
+  rate:0
+}];
+
+renderItems();
+
+calculateTotal();
+
+updatePreview();
+
+renderSavedInvoices();
+
+</script>
+
+</body>
+</html>
+```
