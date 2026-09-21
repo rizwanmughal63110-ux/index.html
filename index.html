@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -451,6 +450,7 @@ td input{
 }
 
 @media(max-width:1150px){
+
   .main-grid{
     grid-template-columns:180px 1fr;
   }
@@ -459,9 +459,11 @@ td input{
     grid-column:1/-1;
     position:static;
   }
+
 }
 
 @media(max-width:800px){
+
   .main-grid{
     display:block;
   }
@@ -490,9 +492,11 @@ td input{
   .invoice{
     padding:12px;
   }
+
 }
 
 @media print{
+
   body{
     background:#fff;
   }
@@ -528,6 +532,7 @@ td input{
     size:A4;
     margin:10mm;
   }
+
 }
 </style>
 </head>
@@ -535,13 +540,21 @@ td input{
 <body>
 
 <header class="topbar">
-  <div class="tcl-logo">TCL</div>
+
+  <div class="tcl-logo">
+    TCL
+  </div>
 
   <div class="top-info">
+
     <span id="topDate"></span>
+
     &nbsp;&nbsp;
+
     <span id="topTime"></span>
+
   </div>
+
 </header>
 
 
@@ -549,7 +562,9 @@ td input{
 
 <div class="main-grid">
 
+
 <!-- SIDEBAR -->
+
 <aside class="sidebar">
 
   <div class="side-item active">
@@ -566,12 +581,19 @@ td input{
 
   <div style="text-align:center;margin-top:200px">
 
-    <div class="tcl-logo" style="font-size:28px;display:inline-block">
+    <div
+      class="tcl-logo"
+      style="font-size:28px;display:inline-block">
+
       TCL
+
     </div>
 
-    <div style="font-size:11px;color:#777;margin-top:7px">
+    <div
+      style="font-size:11px;color:#777;margin-top:7px">
+
       Invoice Manager
+
     </div>
 
   </div>
@@ -580,16 +602,20 @@ td input{
 
 
 <!-- MAIN FORM -->
+
 <main>
 
 <div class="card">
 
-<h1>▤ &nbsp; Create TCL Invoice</h1>
+<h1>
+  ▤ &nbsp; Create TCL Invoice
+</h1>
 
 <div id="statusMsg" class="status"></div>
 
 
 <!-- CUSTOMER INFORMATION -->
+
 <div class="section">
 
 <div class="section-title">
@@ -600,51 +626,84 @@ td input{
 
 <div class="grid">
 
+
 <div class="field">
-<label>Customer Name *</label>
+
+<label>
+Customer Name *
+</label>
+
 <input
   id="customerName"
   type="text"
   placeholder="Enter customer name">
+
 </div>
 
+
 <div class="field">
-<label>Customer Phone</label>
+
+<label>
+Customer Phone
+</label>
+
 <input
   id="customerPhone"
   type="tel"
   placeholder="03XXXXXXXXX">
+
 </div>
 
+
 <div class="field">
-<label>Customer Address</label>
+
+<label>
+Customer Address
+</label>
+
 <input
   id="customerAddress"
   type="text"
   placeholder="Enter customer address">
+
 </div>
 
+
 <div class="field">
-<label>Invoice Date *</label>
+
+<label>
+Invoice Date *
+</label>
+
 <input
   id="invoiceDate"
   type="date">
+
 </div>
 
+
 <div class="field">
-<label>Invoice Time *</label>
+
+<label>
+Invoice Time *
+</label>
+
 <input
   id="invoiceTime"
   type="time">
+
 </div>
+
 
 </div>
 
 </div>
+
 </div>
 
 
 <!-- ITEMS -->
+
 <div class="section">
 
 <div class="section-title">
@@ -658,14 +717,35 @@ td input{
 <table>
 
 <thead>
+
 <tr>
-<th style="width:35px">#</th>
-<th>Description</th>
-<th style="width:80px">Qty</th>
-<th style="width:110px">Rate (Rs)</th>
-<th style="width:120px">Amount (Rs)</th>
-<th style="width:65px">Action</th>
+
+<th style="width:35px">
+#
+</th>
+
+<th>
+Description
+</th>
+
+<th style="width:80px">
+Qty
+</th>
+
+<th style="width:110px">
+Rate (Rs)
+</th>
+
+<th style="width:120px">
+Amount (Rs)
+</th>
+
+<th style="width:65px">
+Action
+</th>
+
 </tr>
+
 </thead>
 
 <tbody id="itemsBody"></tbody>
@@ -674,22 +754,26 @@ td input{
 
 </div>
 
+
 <button
   type="button"
   class="btn btn-red"
   style="margin-top:10px"
   onclick="addItem()">
 
-＋ Add Item
+  ＋ Add Item
 
 </button>
 
 </div>
+
 </div>
 
 
 <!-- ADJUSTMENTS -->
+
 <div class="adjust-grid">
+
 
 <div class="section">
 
@@ -699,31 +783,47 @@ Amount Adjustments
 
 <div class="section-body">
 
+
 <div class="field">
-<label>Discount (Rs)</label>
+
+<label>
+Discount (Rs)
+</label>
+
 <input
   id="discount"
   type="number"
   min="0"
   value="0"
   oninput="calculateTotal()">
+
 </div>
+
 
 <br>
 
+
 <div class="field">
-<label>Additional Charges (Rs)</label>
+
+<label>
+Additional Charges (Rs)
+</label>
+
 <input
   id="additionalCharges"
   type="number"
   min="0"
   value="0"
   oninput="calculateTotal()">
+
 </div>
+
 
 <br>
 
+
 <div class="field">
+
 <label style="color:#c90010">
 Customer Purchase / Exchange Deduction (Rs)
 </label>
@@ -737,36 +837,79 @@ Customer Purchase / Exchange Deduction (Rs)
 
 </div>
 
+
 </div>
+
 </div>
 
 
 <div class="card" style="margin:0">
 
-<div class="summary-row">
-<span>Subtotal</span>
-<strong id="subtotalText">Rs 0</strong>
-</div>
 
 <div class="summary-row">
-<span>Discount</span>
-<strong id="discountText">- Rs 0</strong>
+
+<span>
+Subtotal
+</span>
+
+<strong id="subtotalText">
+Rs 0
+</strong>
+
 </div>
 
-<div class="summary-row">
-<span>Additional Charges</span>
-<strong id="additionalText">+ Rs 0</strong>
-</div>
 
 <div class="summary-row">
-<span>Exchange / Purchase Deduction</span>
-<strong id="deductionText">- Rs 0</strong>
+
+<span>
+Discount
+</span>
+
+<strong id="discountText">
+- Rs 0
+</strong>
+
 </div>
+
+
+<div class="summary-row">
+
+<span>
+Additional Charges
+</span>
+
+<strong id="additionalText">
++ Rs 0
+</strong>
+
+</div>
+
+
+<div class="summary-row">
+
+<span>
+Exchange / Purchase Deduction
+</span>
+
+<strong id="deductionText">
+- Rs 0
+</strong>
+
+</div>
+
 
 <div class="summary-row summary-final">
-<span>FINAL TOTAL</span>
-<strong id="totalText">Rs 0</strong>
+
+<span>
+FINAL TOTAL
+</span>
+
+<strong id="totalText">
+Rs 0
+</strong>
+
 </div>
+
 
 </div>
 
@@ -774,6 +917,7 @@ Customer Purchase / Exchange Deduction (Rs)
 
 
 <!-- NOTES -->
+
 <div class="section">
 
 <div class="section-title">
@@ -785,8 +929,7 @@ Customer Purchase / Exchange Deduction (Rs)
 <textarea
   id="notes"
   rows="4"
-  placeholder="Example: 5 year pipe warranty"
-></textarea>
+  placeholder="Example: 5 year pipe warranty"></textarea>
 
 </div>
 
@@ -794,42 +937,59 @@ Customer Purchase / Exchange Deduction (Rs)
 
 
 <!-- BUTTONS -->
+
 <div class="actions">
+
 
 <button
   type="button"
   class="btn btn-green"
   onclick="saveInvoice()">
+
   ▣ Save Invoice
+
 </button>
+
 
 <button
   type="button"
   class="btn btn-red"
   onclick="updatePreview()">
+
   ◉ Preview Invoice
+
 </button>
+
 
 <button
   type="button"
   class="btn btn-black"
   onclick="printInvoice()">
+
   🖨 Print / Save PDF
+
 </button>
+
 
 <button
   type="button"
   class="btn btn-green"
   onclick="whatsappInvoice()">
+
   ◉ WhatsApp
+
 </button>
+
 
 <button
   type="button"
   class="btn btn-gray"
   onclick="clearForm()">
+
   ↻ Clear
+
 </button>
+
 
 </div>
 
@@ -837,11 +997,13 @@ Customer Purchase / Exchange Deduction (Rs)
 
 
 <!-- SAVED INVOICES -->
+
 <div class="card">
 
 <div class="saved-title">
 ▤ Saved Invoices
 </div>
+
 
 <input
   id="searchInvoice"
@@ -849,6 +1011,7 @@ Customer Purchase / Exchange Deduction (Rs)
   type="search"
   placeholder="Search invoice number or customer name..."
   oninput="renderSavedInvoices()">
+
 
 <div id="savedInvoices"></div>
 
@@ -858,19 +1021,21 @@ Customer Purchase / Exchange Deduction (Rs)
 
 
 <!-- PREVIEW -->
+
 <section class="preview-panel">
 
 <div class="preview-heading">
 ◉ Invoice Preview
 </div>
 
-<div id="invoicePreview" class="invoice">
-
-<!-- PREVIEW GENERATED BY JAVASCRIPT -->
+<div
+  id="invoicePreview"
+  class="invoice">
 
 </div>
 
 </section>
+
 
 </div>
 </div>
@@ -880,10 +1045,10 @@ Customer Purchase / Exchange Deduction (Rs)
 
 /* =========================================================
    TCL INVOICE MANAGER
-   Separate storage key from Haier
 ========================================================= */
 
-const STORAGE_KEY = "tcl_invoice_manager_v1";
+const STORAGE_KEY =
+  "tcl_invoice_manager_v1";
 
 let items = [];
 
@@ -932,12 +1097,19 @@ const statusMsg =
 
 
 /* =========================================================
-   DATE / TIME
+   PAD NUMBER
 ========================================================= */
 
 function pad(n){
+
   return String(n).padStart(2,"0");
+
 }
+
+
+/* =========================================================
+   DATE / TIME
+========================================================= */
 
 function setCurrentDateTime(){
 
@@ -956,6 +1128,7 @@ function setCurrentDateTime(){
     pad(now.getMinutes());
 
   invoiceDateEl.value = date;
+
   invoiceTimeEl.value = time;
 
   updateTopClock();
@@ -987,7 +1160,10 @@ function updateTopClock(){
 
 }
 
-setInterval(updateTopClock,1000);
+setInterval(
+  updateTopClock,
+  1000
+);
 
 
 /* =========================================================
@@ -1019,7 +1195,7 @@ function money(value){
 
 
 /* =========================================================
-   INVOICE NUMBER
+   GET SAVED INVOICES
 ========================================================= */
 
 function getInvoices(){
@@ -1039,9 +1215,14 @@ function getInvoices(){
 }
 
 
+/* =========================================================
+   NEXT INVOICE NUMBER
+========================================================= */
+
 function nextInvoiceNumber(){
 
-  const invoices = getInvoices();
+  const invoices =
+    getInvoices();
 
   let max = 0;
 
@@ -1057,7 +1238,9 @@ function nextInvoiceNumber(){
         parseInt(match[1],10);
 
       if(number > max){
+
         max = number;
+
       }
 
     }
@@ -1081,10 +1264,20 @@ function addItem(
 ){
 
   items.push({
-    id:Date.now() + Math.random(),
-    description:description,
-    qty:qty,
-    rate:rate
+
+    id:
+      Date.now() +
+      Math.random(),
+
+    description:
+      description,
+
+    qty:
+      qty,
+
+    rate:
+      rate
+
   });
 
   renderItems();
@@ -1103,15 +1296,27 @@ function removeItem(index){
   if(items.length <= 1){
 
     items[0] = {
-      id:Date.now(),
-      description:"",
-      qty:1,
-      rate:0
+
+      id:
+        Date.now(),
+
+      description:
+        "",
+
+      qty:
+        1,
+
+      rate:
+        0
+
     };
 
   }else{
 
-    items.splice(index,1);
+    items.splice(
+      index,
+      1
+    );
 
   }
 
@@ -1130,95 +1335,154 @@ function renderItems(){
 
   itemsBody.innerHTML = "";
 
-  items.forEach((item,index)=>{
+  items.forEach(
+    (item,index)=>{
 
-    const qty =
-      Number(item.qty) || 0;
+      const qty =
+        Number(item.qty) || 0;
 
-    const rate =
-      Number(item.rate) || 0;
+      const rate =
+        Number(item.rate) || 0;
 
-    const amount =
-      qty * rate;
+      const amount =
+        qty * rate;
 
-    const tr =
-      document.createElement("tr");
+      const tr =
+        document.createElement("tr");
 
-    tr.innerHTML = `
 
-      <td style="text-align:center">
-        ${index + 1}
-      </td>
+      tr.innerHTML = `
 
-      <td>
-        <input
-          type="text"
-          value="${escapeHTML(item.description)}"
-          placeholder="Part / Service / Product"
-          oninput="updateItem(${index},'description',this.value)">
-      </td>
+        <td style="text-align:center">
+          ${index + 1}
+        </td>
 
-      <td>
-        <input
-          type="number"
-          min="0"
-          value="${qty}"
-          oninput="updateItem(${index},'qty',this.value)">
-      </td>
+        <td>
 
-      <td>
-        <input
-          type="number"
-          min="0"
-          value="${rate}"
-          oninput="updateItem(${index},'rate',this.value)">
-      </td>
+          <input
+            type="text"
+            value="${escapeHTML(item.description)}"
+            placeholder="Part / Service / Product"
+            oninput="updateItem(${index},'description',this.value)">
 
-      <td class="item-amount">
-        Rs ${money(amount)}
-      </td>
+        </td>
 
-      <td style="text-align:center">
+        <td>
 
-        <button
-          type="button"
-          class="btn btn-danger"
-          style="padding:6px 8px"
-          onclick="removeItem(${index})">
-          ×
-        </button>
+          <input
+            type="number"
+            min="0"
+            value="${qty}"
+            oninput="updateItem(${index},'qty',this.value)">
 
-      </td>
+        </td>
 
-    `;
+        <td>
 
-    itemsBody.appendChild(tr);
+          <input
+            type="number"
+            min="0"
+            value="${rate}"
+            oninput="updateItem(${index},'rate',this.value)">
 
-  });
+        </td>
+
+        <td class="item-amount">
+
+          Rs ${money(amount)}
+
+        </td>
+
+        <td style="text-align:center">
+
+          <button
+            type="button"
+            class="btn btn-danger"
+            style="padding:6px 8px"
+            onclick="removeItem(${index})">
+
+            ×
+
+          </button>
+
+        </td>
+
+      `;
+
+
+      itemsBody.appendChild(tr);
+
+    }
+  );
 
 }
 
 
 /* =========================================================
    UPDATE ITEM
+   IMPORTANT:
+   Do NOT re-render while typing description.
 ========================================================= */
 
 function updateItem(index,key,value){
 
-  if(!items[index]) return;
+  if(!items[index]){
+    return;
+  }
+
+
+  /* DESCRIPTION */
+
+  if(key === "description"){
+
+    items[index].description =
+      value;
+
+    calculateTotal();
+
+    return;
+
+  }
+
+
+  /* QUANTITY / RATE */
 
   if(key === "qty" || key === "rate"){
 
     items[index][key] =
       Number(value) || 0;
 
-  }else{
 
-    items[index][key] = value;
+    const row =
+      itemsBody.children[index];
+
+
+    if(row){
+
+      const amountCell =
+        row.querySelector(
+          ".item-amount"
+        );
+
+
+      if(amountCell){
+
+        const qty =
+          Number(items[index].qty) || 0;
+
+        const rate =
+          Number(items[index].rate) || 0;
+
+        amountCell.textContent =
+          "Rs " +
+          money(qty * rate);
+
+      }
+
+    }
 
   }
 
-  renderItems();
 
   calculateTotal();
 
@@ -1233,6 +1497,7 @@ function calculateTotal(){
 
   let subtotal = 0;
 
+
   items.forEach(item => {
 
     subtotal +=
@@ -1241,11 +1506,13 @@ function calculateTotal(){
 
   });
 
+
   const discount =
     Math.max(
       0,
       Number(discountEl.value) || 0
     );
+
 
   const additional =
     Math.max(
@@ -1253,11 +1520,13 @@ function calculateTotal(){
       Number(additionalChargesEl.value) || 0
     );
 
+
   const deduction =
     Math.max(
       0,
       Number(exchangeDeductionEl.value) || 0
     );
+
 
   let total =
     subtotal -
@@ -1265,43 +1534,73 @@ function calculateTotal(){
     additional -
     deduction;
 
+
   if(total < 0){
+
     total = 0;
+
   }
 
-  document.getElementById("subtotalText")
-    .textContent =
-    "Rs " + money(subtotal);
 
-  document.getElementById("discountText")
-    .textContent =
-    "- Rs " + money(discount);
+  document.getElementById(
+    "subtotalText"
+  ).textContent =
+    "Rs " +
+    money(subtotal);
 
-  document.getElementById("additionalText")
-    .textContent =
-    "+ Rs " + money(additional);
 
-  document.getElementById("deductionText")
-    .textContent =
-    "- Rs " + money(deduction);
+  document.getElementById(
+    "discountText"
+  ).textContent =
+    "- Rs " +
+    money(discount);
 
-  document.getElementById("totalText")
-    .textContent =
-    "Rs " + money(total);
+
+  document.getElementById(
+    "additionalText"
+  ).textContent =
+    "+ Rs " +
+    money(additional);
+
+
+  document.getElementById(
+    "deductionText"
+  ).textContent =
+    "- Rs " +
+    money(deduction);
+
+
+  document.getElementById(
+    "totalText"
+  ).textContent =
+    "Rs " +
+    money(total);
+
 
   return {
-    subtotal,
-    discount,
-    additional,
-    deduction,
-    total
+
+    subtotal:
+      subtotal,
+
+    discount:
+      discount,
+
+    additional:
+      additional,
+
+    deduction:
+      deduction,
+
+    total:
+      total
+
   };
 
 }
 
 
 /* =========================================================
-   BUILD INVOICE OBJECT
+   COLLECT INVOICE
 ========================================================= */
 
 function collectInvoice(){
@@ -1309,12 +1608,16 @@ function collectInvoice(){
   const totals =
     calculateTotal();
 
+
   const invoiceNo =
-    currentInvoiceNo || nextInvoiceNumber();
+    currentInvoiceNo ||
+    nextInvoiceNumber();
+
 
   return {
 
-    invoiceNo:invoiceNo,
+    invoiceNo:
+      invoiceNo,
 
     customerName:
       customerNameEl.value.trim(),
@@ -1331,18 +1634,25 @@ function collectInvoice(){
     time:
       invoiceTimeEl.value,
 
+
     items:
       items.map(item => ({
+
         description:
           item.description || "",
+
         qty:
           Number(item.qty) || 0,
+
         rate:
           Number(item.rate) || 0,
+
         amount:
           (Number(item.qty) || 0) *
           (Number(item.rate) || 0)
+
       })),
+
 
     subtotal:
       totals.subtotal,
@@ -1379,9 +1689,12 @@ function saveInvoice(){
   const name =
     customerNameEl.value.trim();
 
+
   if(!name){
 
-    alert("Please enter customer name.");
+    alert(
+      "Please enter customer name."
+    );
 
     customerNameEl.focus();
 
@@ -1389,32 +1702,44 @@ function saveInvoice(){
 
   }
 
+
   if(!invoiceDateEl.value){
 
-    alert("Please select invoice date.");
+    alert(
+      "Please select invoice date."
+    );
 
     return;
 
   }
+
 
   if(!invoiceTimeEl.value){
 
-    alert("Please select invoice time.");
+    alert(
+      "Please select invoice time."
+    );
 
     return;
 
   }
+
 
   const invoice =
     collectInvoice();
 
+
   const invoices =
     getInvoices();
 
+
   const existingIndex =
     invoices.findIndex(
-      x => x.invoiceNo === invoice.invoiceNo
+      x =>
+        x.invoiceNo ===
+        invoice.invoiceNo
     );
+
 
   if(existingIndex >= 0){
 
@@ -1423,23 +1748,29 @@ function saveInvoice(){
 
   }else{
 
-    invoices.unshift(invoice);
+    invoices.unshift(
+      invoice
+    );
 
   }
+
 
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify(invoices)
   );
 
+
   currentInvoiceNo =
     invoice.invoiceNo;
+
 
   showStatus(
     "Invoice " +
     invoice.invoiceNo +
     " saved successfully."
   );
+
 
   renderSavedInvoices();
 
@@ -1449,7 +1780,7 @@ function saveInvoice(){
 
 
 /* =========================================================
-   STATUS MESSAGE
+   STATUS
 ========================================================= */
 
 function showStatus(message){
@@ -1460,71 +1791,89 @@ function showStatus(message){
   statusMsg.style.display =
     "block";
 
-  setTimeout(()=>{
-    statusMsg.style.display =
-      "none";
-  },3000);
+
+  setTimeout(
+    ()=>{
+      statusMsg.style.display =
+        "none";
+    },
+    3000
+  );
 
 }
 
 
 /* =========================================================
-   BUILD PREVIEW
+   BUILD INVOICE HTML
 ========================================================= */
 
 function buildInvoiceHTML(invoice){
 
   const itemRows =
-    invoice.items.map((item,index)=>`
+    invoice.items
+      .map(
+        (item,index)=>`
 
-      <tr>
+        <tr>
 
-        <td style="text-align:center">
-          ${index + 1}
-        </td>
+          <td style="text-align:center">
+            ${index + 1}
+          </td>
 
-        <td>
-          ${escapeHTML(item.description)}
-        </td>
+          <td>
+            ${escapeHTML(item.description)}
+          </td>
 
-        <td style="text-align:center">
-          ${item.qty}
-        </td>
+          <td style="text-align:center">
+            ${item.qty}
+          </td>
 
-        <td style="text-align:right">
-          Rs ${money(item.rate)}
-        </td>
+          <td style="text-align:right">
+            Rs ${money(item.rate)}
+          </td>
 
-        <td style="text-align:right">
-          Rs ${money(item.amount)}
-        </td>
+          <td style="text-align:right">
+            Rs ${money(item.amount)}
+          </td>
 
-      </tr>
+        </tr>
 
-  `).join("");
+      `
+      )
+      .join("");
+
 
   const note =
     invoice.notes
       ? escapeHTML(invoice.notes)
       : "No additional note.";
 
+
   return `
 
     <div class="invoice-top">
 
       <div>
+
         <div class="invoice-logo">
           TCL
         </div>
+
       </div>
+
 
       <div class="company-info">
 
         <strong style="font-size:14px">
           TCL
-        </strong><br>
+        </strong>
 
-        Invoice / Sales Record<br>
+        <br>
+
+        Invoice / Sales Record
+
+        <br>
+
         Customer Service &amp; Sales
 
       </div>
@@ -1539,35 +1888,76 @@ function buildInvoiceHTML(invoice){
 
     <div class="invoice-meta">
 
+
       <div class="meta-box">
-        <strong>Invoice Number</strong>
+
+        <strong>
+          Invoice Number
+        </strong>
+
         ${escapeHTML(invoice.invoiceNo)}
+
       </div>
 
+
       <div class="meta-box">
-        <strong>Date</strong>
+
+        <strong>
+          Date
+        </strong>
+
         ${escapeHTML(invoice.date)}
+
       </div>
 
+
       <div class="meta-box">
-        <strong>Customer Name</strong>
+
+        <strong>
+          Customer Name
+        </strong>
+
         ${escapeHTML(invoice.customerName)}
+
       </div>
 
+
       <div class="meta-box">
-        <strong>Time</strong>
+
+        <strong>
+          Time
+        </strong>
+
         ${escapeHTML(invoice.time)}
+
       </div>
 
-      <div class="meta-box">
-        <strong>Customer Phone</strong>
-        ${escapeHTML(invoice.customerPhone || "-")}
-      </div>
 
       <div class="meta-box">
-        <strong>Customer Address</strong>
-        ${escapeHTML(invoice.customerAddress || "-")}
+
+        <strong>
+          Customer Phone
+        </strong>
+
+        ${escapeHTML(
+          invoice.customerPhone || "-"
+        )}
+
       </div>
+
+
+      <div class="meta-box">
+
+        <strong>
+          Customer Address
+        </strong>
+
+        ${escapeHTML(
+          invoice.customerAddress || "-"
+        )}
+
+      </div>
+
 
     </div>
 
@@ -1577,26 +1967,51 @@ function buildInvoiceHTML(invoice){
       <thead>
 
         <tr>
-          <th>#</th>
-          <th>Description</th>
-          <th>Qty</th>
-          <th>Rate</th>
-          <th>Amount</th>
+
+          <th>
+            #
+          </th>
+
+          <th>
+            Description
+          </th>
+
+          <th>
+            Qty
+          </th>
+
+          <th>
+            Rate
+          </th>
+
+          <th>
+            Amount
+          </th>
+
         </tr>
 
       </thead>
+
 
       <tbody>
 
         ${
           itemRows ||
+
           `
+
           <tr>
-            <td colspan="5"
-                style="text-align:center">
+
+            <td
+              colspan="5"
+              style="text-align:center">
+
               No items
+
             </td>
+
           </tr>
+
           `
         }
 
@@ -1607,37 +2022,82 @@ function buildInvoiceHTML(invoice){
 
     <div class="invoice-total-box">
 
-      <div class="invoice-total-row">
-        <span>Subtotal</span>
-        <strong>Rs ${money(invoice.subtotal)}</strong>
-      </div>
 
       <div class="invoice-total-row">
-        <span>Discount</span>
-        <strong>- Rs ${money(invoice.discount)}</strong>
+
+        <span>
+          Subtotal
+        </span>
+
+        <strong>
+          Rs ${money(invoice.subtotal)}
+        </strong>
+
       </div>
 
-      <div class="invoice-total-row">
-        <span>Additional Charges</span>
-        <strong>+ Rs ${money(invoice.additional)}</strong>
-      </div>
 
       <div class="invoice-total-row">
-        <span>Exchange / Purchase Deduction</span>
-        <strong>- Rs ${money(invoice.deduction)}</strong>
+
+        <span>
+          Discount
+        </span>
+
+        <strong>
+          - Rs ${money(invoice.discount)}
+        </strong>
+
       </div>
+
+
+      <div class="invoice-total-row">
+
+        <span>
+          Additional Charges
+        </span>
+
+        <strong>
+          + Rs ${money(invoice.additional)}
+        </strong>
+
+      </div>
+
+
+      <div class="invoice-total-row">
+
+        <span>
+          Exchange / Purchase Deduction
+        </span>
+
+        <strong>
+          - Rs ${money(invoice.deduction)}
+        </strong>
+
+      </div>
+
 
       <div class="invoice-total-row invoice-grand">
-        <span>FINAL TOTAL</span>
-        <strong>Rs ${money(invoice.total)}</strong>
+
+        <span>
+          FINAL TOTAL
+        </span>
+
+        <strong>
+          Rs ${money(invoice.total)}
+        </strong>
+
       </div>
+
 
     </div>
 
 
     <div class="warranty">
 
-      <strong>Warranty / Additional Note:</strong><br>
+      <strong>
+        Warranty / Additional Note:
+      </strong>
+
+      <br>
 
       ${note}
 
@@ -1646,7 +2106,10 @@ function buildInvoiceHTML(invoice){
 
     <div class="invoice-footer">
 
-      Thank you for your business.<br>
+      Thank you for your business.
+
+      <br>
+
       This invoice is generated by TCL Invoice Manager.
 
     </div>
@@ -1665,6 +2128,7 @@ function updatePreview(){
   const invoice =
     collectInvoice();
 
+
   invoicePreview.innerHTML =
     buildInvoiceHTML(invoice);
 
@@ -1680,9 +2144,12 @@ function printInvoice(){
   const name =
     customerNameEl.value.trim();
 
+
   if(!name){
 
-    alert("Please enter customer name first.");
+    alert(
+      "Please enter customer name first."
+    );
 
     customerNameEl.focus();
 
@@ -1690,8 +2157,10 @@ function printInvoice(){
 
   }
 
+
   const invoice =
     collectInvoice();
+
 
   invoicePreview.innerHTML =
     buildInvoiceHTML(invoice);
@@ -1703,6 +2172,7 @@ function printInvoice(){
       "_blank",
       "width=900,height=900"
     );
+
 
   if(!printWindow){
 
@@ -1726,8 +2196,10 @@ function printInvoice(){
 <meta charset="UTF-8">
 
 <title>
-${escapeHTML(invoice.invoiceNo)} - TCL Invoice
+${escapeHTML(invoice.invoiceNo)}
+- TCL Invoice
 </title>
+
 
 <style>
 
@@ -1793,6 +2265,7 @@ body{
   border:1px solid #ddd;
   padding:9px;
   font-size:11px;
+  min-height:48px;
 }
 
 .meta-box strong{
@@ -1847,6 +2320,7 @@ body{
   margin-top:15px;
   padding:10px;
   font-size:10px;
+  min-height:45px;
 }
 
 .invoice-footer{
@@ -1879,13 +2353,16 @@ body{
 
 </head>
 
+
 <body>
+
 
 <div class="invoice">
 
 ${buildInvoiceHTML(invoice)}
 
 </div>
+
 
 <script>
 
@@ -1894,11 +2371,13 @@ window.onload = function(){
   setTimeout(function(){
 
     window.focus();
+
     window.print();
 
   },300);
 
 };
+
 
 window.onafterprint = function(){
 
@@ -1911,6 +2390,7 @@ window.onafterprint = function(){
 };
 
 <\/script>
+
 
 </body>
 
@@ -1939,9 +2419,12 @@ function whatsappInvoice(){
   const invoice =
     collectInvoice();
 
+
   if(!invoice.customerName){
 
-    alert("Please enter customer name first.");
+    alert(
+      "Please enter customer name first."
+    );
 
     customerNameEl.focus();
 
@@ -1949,33 +2432,41 @@ function whatsappInvoice(){
 
   }
 
+
   const lines = [];
+
 
   lines.push(
     "*TCL INVOICE*"
   );
+
 
   lines.push(
     "Invoice No: " +
     invoice.invoiceNo
   );
 
+
   lines.push(
     "Date: " +
     invoice.date
   );
+
 
   lines.push(
     "Time: " +
     invoice.time
   );
 
+
   lines.push("");
+
 
   lines.push(
     "*Customer:* " +
     invoice.customerName
   );
+
 
   if(invoice.customerPhone){
 
@@ -1986,6 +2477,7 @@ function whatsappInvoice(){
 
   }
 
+
   if(invoice.customerAddress){
 
     lines.push(
@@ -1995,38 +2487,50 @@ function whatsappInvoice(){
 
   }
 
+
   lines.push("");
 
-  lines.push("*Items:*");
 
-  invoice.items.forEach((item,index)=>{
+  lines.push(
+    "*Items:*"
+  );
 
-    if(
-      item.description ||
-      item.qty ||
-      item.rate
-    ){
 
-      lines.push(
-        (index + 1) +
-        ". " +
-        (item.description || "Item") +
-        " × " +
-        item.qty +
-        " = Rs " +
-        money(item.amount)
-      );
+  invoice.items.forEach(
+    (item,index)=>{
+
+      if(
+        item.description ||
+        item.qty ||
+        item.rate
+      ){
+
+        lines.push(
+
+          (index + 1) +
+          ". " +
+          (item.description || "Item") +
+          " × " +
+          item.qty +
+          " = Rs " +
+          money(item.amount)
+
+        );
+
+      }
 
     }
+  );
 
-  });
 
   lines.push("");
+
 
   lines.push(
     "Subtotal: Rs " +
     money(invoice.subtotal)
   );
+
 
   if(invoice.discount){
 
@@ -2037,6 +2541,7 @@ function whatsappInvoice(){
 
   }
 
+
   if(invoice.additional){
 
     lines.push(
@@ -2045,6 +2550,7 @@ function whatsappInvoice(){
     );
 
   }
+
 
   if(invoice.deduction){
 
@@ -2055,11 +2561,13 @@ function whatsappInvoice(){
 
   }
 
+
   lines.push(
     "*FINAL TOTAL: Rs " +
     money(invoice.total) +
     "*"
   );
+
 
   if(invoice.notes){
 
@@ -2075,19 +2583,23 @@ function whatsappInvoice(){
 
   }
 
+
   lines.push("");
 
   lines.push(
     "Thank you for your business."
   );
 
+
   const text =
     encodeURIComponent(
       lines.join("\n")
     );
 
+
   window.open(
-    "https://wa.me/?text=" + text,
+    "https://wa.me/?text=" +
+    text,
     "_blank"
   );
 
@@ -2103,79 +2615,124 @@ function loadInvoice(invoiceNo){
   const invoices =
     getInvoices();
 
+
   const invoice =
     invoices.find(
-      x => x.invoiceNo === invoiceNo
+      x =>
+        x.invoiceNo ===
+        invoiceNo
     );
+
 
   if(!invoice){
 
-    alert("Invoice not found.");
+    alert(
+      "Invoice not found."
+    );
 
     return;
 
   }
 
+
   currentInvoiceNo =
     invoice.invoiceNo;
+
 
   customerNameEl.value =
     invoice.customerName || "";
 
+
   customerPhoneEl.value =
     invoice.customerPhone || "";
+
 
   customerAddressEl.value =
     invoice.customerAddress || "";
 
+
   invoiceDateEl.value =
     invoice.date || "";
+
 
   invoiceTimeEl.value =
     invoice.time || "";
 
+
   discountEl.value =
     invoice.discount || 0;
+
 
   additionalChargesEl.value =
     invoice.additional || 0;
 
+
   exchangeDeductionEl.value =
     invoice.deduction || 0;
+
 
   notesEl.value =
     invoice.notes || "";
 
+
   items =
-    (invoice.items || []).map(item => ({
-      id:Date.now() + Math.random(),
-      description:item.description || "",
-      qty:Number(item.qty) || 0,
-      rate:Number(item.rate) || 0
-    }));
+    (invoice.items || [])
+      .map(item => ({
+
+        id:
+          Date.now() +
+          Math.random(),
+
+        description:
+          item.description || "",
+
+        qty:
+          Number(item.qty) || 0,
+
+        rate:
+          Number(item.rate) || 0
+
+      }));
+
 
   if(items.length === 0){
 
     items = [{
-      id:Date.now(),
-      description:"",
-      qty:1,
-      rate:0
+
+      id:
+        Date.now(),
+
+      description:
+        "",
+
+      qty:
+        1,
+
+      rate:
+        0
+
     }];
 
   }
+
 
   renderItems();
 
   calculateTotal();
 
+
   invoicePreview.innerHTML =
     buildInvoiceHTML(invoice);
 
+
   window.scrollTo({
+
     top:0,
+
     behavior:"smooth"
+
   });
+
 
   showStatus(
     "Invoice " +
@@ -2204,26 +2761,37 @@ function deleteInvoice(invoiceNo){
 
   }
 
+
   let invoices =
     getInvoices();
 
+
   invoices =
     invoices.filter(
-      x => x.invoiceNo !== invoiceNo
+      x =>
+        x.invoiceNo !==
+        invoiceNo
     );
+
 
   localStorage.setItem(
     STORAGE_KEY,
     JSON.stringify(invoices)
   );
 
-  if(currentInvoiceNo === invoiceNo){
+
+  if(
+    currentInvoiceNo ===
+    invoiceNo
+  ){
 
     currentInvoiceNo = "";
 
   }
 
+
   renderSavedInvoices();
+
 
   showStatus(
     "Invoice deleted."
@@ -2243,6 +2811,7 @@ function renderSavedInvoices(){
       "savedInvoices"
     );
 
+
   const search =
     (
       document.getElementById(
@@ -2252,32 +2821,42 @@ function renderSavedInvoices(){
     .trim()
     .toLowerCase();
 
+
   const invoices =
     getInvoices();
 
+
   const filtered =
-    invoices.filter(invoice => {
+    invoices.filter(
+      invoice => {
 
-      const no =
-        String(
-          invoice.invoiceNo || ""
-        ).toLowerCase();
+        const no =
+          String(
+            invoice.invoiceNo || ""
+          ).toLowerCase();
 
-      const name =
-        String(
-          invoice.customerName || ""
-        ).toLowerCase();
 
-      return (
-        no.includes(search) ||
-        name.includes(search)
-      );
+        const name =
+          String(
+            invoice.customerName || ""
+          ).toLowerCase();
 
-    });
+
+        return (
+
+          no.includes(search) ||
+          name.includes(search)
+
+        );
+
+      }
+    );
+
 
   if(filtered.length === 0){
 
     box.innerHTML =
+
       `<div class="empty">
         No saved invoices found.
       </div>`;
@@ -2286,52 +2865,78 @@ function renderSavedInvoices(){
 
   }
 
+
   box.innerHTML =
-    filtered.map(invoice => `
+    filtered
+      .map(
+        invoice => `
 
-      <div class="saved-row">
+        <div class="saved-row">
 
-        <div class="saved-info">
 
-          <strong>
-            ${escapeHTML(invoice.invoiceNo)}
-          </strong>
+          <div class="saved-info">
 
-          <br>
+            <strong>
+              ${escapeHTML(
+                invoice.invoiceNo
+              )}
+            </strong>
 
-          ${escapeHTML(invoice.customerName || "No name")}
+            <br>
 
-          <br>
+            ${escapeHTML(
+              invoice.customerName ||
+              "No name"
+            )}
 
-          ${escapeHTML(invoice.date || "")}
+            <br>
 
-          &nbsp; | &nbsp;
+            ${escapeHTML(
+              invoice.date || ""
+            )}
 
-          Rs ${money(invoice.total)}
+            &nbsp; | &nbsp;
+
+            Rs ${money(invoice.total)}
+
+          </div>
+
+
+          <div class="saved-actions">
+
+
+            <button
+              type="button"
+              class="btn btn-blue"
+              onclick="loadInvoice('${escapeHTML(
+                invoice.invoiceNo
+              )}')">
+
+              Open
+
+            </button>
+
+
+            <button
+              type="button"
+              class="btn btn-danger"
+              onclick="deleteInvoice('${escapeHTML(
+                invoice.invoiceNo
+              )}')">
+
+              Delete
+
+            </button>
+
+
+          </div>
+
 
         </div>
 
-        <div class="saved-actions">
-
-          <button
-            type="button"
-            class="btn btn-blue"
-            onclick="loadInvoice('${escapeHTML(invoice.invoiceNo)}')">
-            Open
-          </button>
-
-          <button
-            type="button"
-            class="btn btn-danger"
-            onclick="deleteInvoice('${escapeHTML(invoice.invoiceNo)}')">
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    `).join("");
+      `
+      )
+      .join("");
 
 }
 
@@ -2352,7 +2957,9 @@ function clearForm(){
 
   }
 
+
   currentInvoiceNo = "";
+
 
   customerNameEl.value = "";
 
@@ -2360,22 +2967,36 @@ function clearForm(){
 
   customerAddressEl.value = "";
 
+
   discountEl.value = 0;
 
   additionalChargesEl.value = 0;
 
   exchangeDeductionEl.value = 0;
 
+
   notesEl.value = "";
+
 
   setCurrentDateTime();
 
+
   items = [{
-    id:Date.now(),
-    description:"",
-    qty:1,
-    rate:0
+
+    id:
+      Date.now(),
+
+    description:
+      "",
+
+    qty:
+      1,
+
+    rate:
+      0
+
   }];
+
 
   renderItems();
 
@@ -2392,12 +3013,23 @@ function clearForm(){
 
 setCurrentDateTime();
 
+
 items = [{
-  id:Date.now(),
-  description:"",
-  qty:1,
-  rate:0
+
+  id:
+    Date.now(),
+
+  description:
+    "",
+
+  qty:
+    1,
+
+  rate:
+    0
+
 }];
+
 
 renderItems();
 
@@ -2411,4 +3043,3 @@ renderSavedInvoices();
 
 </body>
 </html>
-```
