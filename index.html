@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -627,6 +628,23 @@ td input{
 <div class="grid">
 
 
+<!-- EDITABLE INVOICE NUMBER -->
+
+<div class="field">
+
+<label>
+Invoice Number
+</label>
+
+<input
+  id="invoiceNumber"
+  type="text"
+  placeholder="Leave blank for automatic number"
+  autocomplete="off">
+
+</div>
+
+
 <div class="field">
 
 <label>
@@ -1059,6 +1077,9 @@ let currentInvoiceNo = "";
    ELEMENTS
 ========================================================= */
 
+const invoiceNumberEl =
+  document.getElementById("invoiceNumber");
+
 const customerNameEl =
   document.getElementById("customerName");
 
@@ -1127,9 +1148,11 @@ function setCurrentDateTime(){
     ":" +
     pad(now.getMinutes());
 
-  invoiceDateEl.value = date;
+  invoiceDateEl.value =
+    date;
 
-  invoiceTimeEl.value = time;
+  invoiceTimeEl.value =
+    time;
 
   updateTopClock();
 
@@ -1144,19 +1167,30 @@ function updateTopClock(){
 
   const now = new Date();
 
-  document.getElementById("topDate").textContent =
-    now.toLocaleDateString("en-PK",{
-      day:"2-digit",
-      month:"2-digit",
-      year:"numeric"
-    });
+  document.getElementById(
+    "topDate"
+  ).textContent =
+    now.toLocaleDateString(
+      "en-PK",
+      {
+        day:"2-digit",
+        month:"2-digit",
+        year:"numeric"
+      }
+    );
 
-  document.getElementById("topTime").textContent =
-    now.toLocaleTimeString("en-PK",{
-      hour:"2-digit",
-      minute:"2-digit",
-      second:"2-digit"
-    });
+
+  document.getElementById(
+    "topTime"
+  ).textContent =
+    now.toLocaleTimeString(
+      "en-PK",
+      {
+        hour:"2-digit",
+        minute:"2-digit",
+        second:"2-digit"
+      }
+    );
 
 }
 
@@ -1203,7 +1237,9 @@ function getInvoices(){
   try{
 
     return JSON.parse(
-      localStorage.getItem(STORAGE_KEY) || "[]"
+      localStorage.getItem(
+        STORAGE_KEY
+      ) || "[]"
     );
 
   }catch(e){
@@ -1216,7 +1252,7 @@ function getInvoices(){
 
 
 /* =========================================================
-   NEXT INVOICE NUMBER
+   NEXT AUTOMATIC INVOICE NUMBER
 ========================================================= */
 
 function nextInvoiceNumber(){
@@ -1226,29 +1262,44 @@ function nextInvoiceNumber(){
 
   let max = 0;
 
-  invoices.forEach(inv => {
 
-    const match =
-      String(inv.invoiceNo || "")
-        .match(/(\d+)$/);
+  invoices.forEach(
+    inv => {
 
-    if(match){
+      const match =
+        String(
+          inv.invoiceNo || ""
+        ).match(/(\d+)$/);
 
-      const number =
-        parseInt(match[1],10);
 
-      if(number > max){
+      if(match){
 
-        max = number;
+        const number =
+          parseInt(
+            match[1],
+            10
+          );
+
+
+        if(number > max){
+
+          max = number;
+
+        }
 
       }
 
     }
+  );
 
-  });
 
   return "TCL-" +
-    String(max + 1).padStart(5,"0");
+    String(
+      max + 1
+    ).padStart(
+      5,
+      "0"
+    );
 
 }
 
@@ -1279,6 +1330,7 @@ function addItem(
       rate
 
   });
+
 
   renderItems();
 
@@ -1320,6 +1372,7 @@ function removeItem(index){
 
   }
 
+
   renderItems();
 
   calculateTotal();
@@ -1335,6 +1388,7 @@ function renderItems(){
 
   itemsBody.innerHTML = "";
 
+
   items.forEach(
     (item,index)=>{
 
@@ -1347,8 +1401,11 @@ function renderItems(){
       const amount =
         qty * rate;
 
+
       const tr =
-        document.createElement("tr");
+        document.createElement(
+          "tr"
+        );
 
 
       tr.innerHTML = `
@@ -1361,7 +1418,9 @@ function renderItems(){
 
           <input
             type="text"
-            value="${escapeHTML(item.description)}"
+            value="${escapeHTML(
+              item.description
+            )}"
             placeholder="Part / Service / Product"
             oninput="updateItem(${index},'description',this.value)">
 
@@ -1410,7 +1469,9 @@ function renderItems(){
       `;
 
 
-      itemsBody.appendChild(tr);
+      itemsBody.appendChild(
+        tr
+      );
 
     }
   );
@@ -1421,10 +1482,14 @@ function renderItems(){
 /* =========================================================
    UPDATE ITEM
    IMPORTANT:
-   Do NOT re-render while typing description.
+   DO NOT RE-RENDER WHILE TYPING
 ========================================================= */
 
-function updateItem(index,key,value){
+function updateItem(
+  index,
+  key,
+  value
+){
 
   if(!items[index]){
     return;
@@ -1447,7 +1512,10 @@ function updateItem(index,key,value){
 
   /* QUANTITY / RATE */
 
-  if(key === "qty" || key === "rate"){
+  if(
+    key === "qty" ||
+    key === "rate"
+  ){
 
     items[index][key] =
       Number(value) || 0;
@@ -1468,14 +1536,22 @@ function updateItem(index,key,value){
       if(amountCell){
 
         const qty =
-          Number(items[index].qty) || 0;
+          Number(
+            items[index].qty
+          ) || 0;
+
 
         const rate =
-          Number(items[index].rate) || 0;
+          Number(
+            items[index].rate
+          ) || 0;
+
 
         amountCell.textContent =
           "Rs " +
-          money(qty * rate);
+          money(
+            qty * rate
+          );
 
       }
 
@@ -1498,33 +1574,41 @@ function calculateTotal(){
   let subtotal = 0;
 
 
-  items.forEach(item => {
+  items.forEach(
+    item => {
 
-    subtotal +=
-      (Number(item.qty) || 0) *
-      (Number(item.rate) || 0);
+      subtotal +=
+        (Number(item.qty) || 0) *
+        (Number(item.rate) || 0);
 
-  });
+    }
+  );
 
 
   const discount =
     Math.max(
       0,
-      Number(discountEl.value) || 0
+      Number(
+        discountEl.value
+      ) || 0
     );
 
 
   const additional =
     Math.max(
       0,
-      Number(additionalChargesEl.value) || 0
+      Number(
+        additionalChargesEl.value
+      ) || 0
     );
 
 
   const deduction =
     Math.max(
       0,
-      Number(exchangeDeductionEl.value) || 0
+      Number(
+        exchangeDeductionEl.value
+      ) || 0
     );
 
 
@@ -1609,7 +1693,23 @@ function collectInvoice(){
     calculateTotal();
 
 
+  /*
+    If user entered an invoice number,
+    use that number.
+
+    If blank:
+    use current loaded invoice number.
+
+    If both blank:
+    generate automatic number.
+  */
+
+  const manualNumber =
+    invoiceNumberEl.value.trim();
+
+
   const invoiceNo =
+    manualNumber ||
     currentInvoiceNo ||
     nextInvoiceNumber();
 
@@ -1636,22 +1736,24 @@ function collectInvoice(){
 
 
     items:
-      items.map(item => ({
+      items.map(
+        item => ({
 
-        description:
-          item.description || "",
+          description:
+            item.description || "",
 
-        qty:
-          Number(item.qty) || 0,
+          qty:
+            Number(item.qty) || 0,
 
-        rate:
-          Number(item.rate) || 0,
+          rate:
+            Number(item.rate) || 0,
 
-        amount:
-          (Number(item.qty) || 0) *
-          (Number(item.rate) || 0)
+          amount:
+            (Number(item.qty) || 0) *
+            (Number(item.rate) || 0)
 
-      })),
+        })
+      ),
 
 
     subtotal:
@@ -1757,11 +1859,22 @@ function saveInvoice(){
 
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(invoices)
+    JSON.stringify(
+      invoices
+    )
   );
 
 
   currentInvoiceNo =
+    invoice.invoiceNo;
+
+
+  /*
+    Keep the manually entered
+    invoice number visible.
+  */
+
+  invoiceNumberEl.value =
     invoice.invoiceNo;
 
 
@@ -1780,13 +1893,14 @@ function saveInvoice(){
 
 
 /* =========================================================
-   STATUS
+   STATUS MESSAGE
 ========================================================= */
 
 function showStatus(message){
 
   statusMsg.textContent =
     message;
+
 
   statusMsg.style.display =
     "block";
@@ -1807,7 +1921,9 @@ function showStatus(message){
    BUILD INVOICE HTML
 ========================================================= */
 
-function buildInvoiceHTML(invoice){
+function buildInvoiceHTML(
+  invoice
+){
 
   const itemRows =
     invoice.items
@@ -1821,7 +1937,9 @@ function buildInvoiceHTML(invoice){
           </td>
 
           <td>
-            ${escapeHTML(item.description)}
+            ${escapeHTML(
+              item.description
+            )}
           </td>
 
           <td style="text-align:center">
@@ -1829,11 +1947,15 @@ function buildInvoiceHTML(invoice){
           </td>
 
           <td style="text-align:right">
-            Rs ${money(item.rate)}
+            Rs ${money(
+              item.rate
+            )}
           </td>
 
           <td style="text-align:right">
-            Rs ${money(item.amount)}
+            Rs ${money(
+              item.amount
+            )}
           </td>
 
         </tr>
@@ -1845,7 +1967,9 @@ function buildInvoiceHTML(invoice){
 
   const note =
     invoice.notes
-      ? escapeHTML(invoice.notes)
+      ? escapeHTML(
+          invoice.notes
+        )
       : "No additional note.";
 
 
@@ -1895,7 +2019,9 @@ function buildInvoiceHTML(invoice){
           Invoice Number
         </strong>
 
-        ${escapeHTML(invoice.invoiceNo)}
+        ${escapeHTML(
+          invoice.invoiceNo
+        )}
 
       </div>
 
@@ -1906,7 +2032,9 @@ function buildInvoiceHTML(invoice){
           Date
         </strong>
 
-        ${escapeHTML(invoice.date)}
+        ${escapeHTML(
+          invoice.date
+        )}
 
       </div>
 
@@ -1917,7 +2045,9 @@ function buildInvoiceHTML(invoice){
           Customer Name
         </strong>
 
-        ${escapeHTML(invoice.customerName)}
+        ${escapeHTML(
+          invoice.customerName
+        )}
 
       </div>
 
@@ -1928,7 +2058,9 @@ function buildInvoiceHTML(invoice){
           Time
         </strong>
 
-        ${escapeHTML(invoice.time)}
+        ${escapeHTML(
+          invoice.time
+        )}
 
       </div>
 
@@ -1940,7 +2072,8 @@ function buildInvoiceHTML(invoice){
         </strong>
 
         ${escapeHTML(
-          invoice.customerPhone || "-"
+          invoice.customerPhone ||
+          "-"
         )}
 
       </div>
@@ -1953,7 +2086,8 @@ function buildInvoiceHTML(invoice){
         </strong>
 
         ${escapeHTML(
-          invoice.customerAddress || "-"
+          invoice.customerAddress ||
+          "-"
         )}
 
       </div>
@@ -2030,7 +2164,9 @@ function buildInvoiceHTML(invoice){
         </span>
 
         <strong>
-          Rs ${money(invoice.subtotal)}
+          Rs ${money(
+            invoice.subtotal
+          )}
         </strong>
 
       </div>
@@ -2043,7 +2179,9 @@ function buildInvoiceHTML(invoice){
         </span>
 
         <strong>
-          - Rs ${money(invoice.discount)}
+          - Rs ${money(
+            invoice.discount
+          )}
         </strong>
 
       </div>
@@ -2056,7 +2194,9 @@ function buildInvoiceHTML(invoice){
         </span>
 
         <strong>
-          + Rs ${money(invoice.additional)}
+          + Rs ${money(
+            invoice.additional
+          )}
         </strong>
 
       </div>
@@ -2069,7 +2209,9 @@ function buildInvoiceHTML(invoice){
         </span>
 
         <strong>
-          - Rs ${money(invoice.deduction)}
+          - Rs ${money(
+            invoice.deduction
+          )}
         </strong>
 
       </div>
@@ -2082,7 +2224,9 @@ function buildInvoiceHTML(invoice){
         </span>
 
         <strong>
-          Rs ${money(invoice.total)}
+          Rs ${money(
+            invoice.total
+          )}
         </strong>
 
       </div>
@@ -2130,7 +2274,9 @@ function updatePreview(){
 
 
   invoicePreview.innerHTML =
-    buildInvoiceHTML(invoice);
+    buildInvoiceHTML(
+      invoice
+    );
 
 }
 
@@ -2163,7 +2309,9 @@ function printInvoice(){
 
 
   invoicePreview.innerHTML =
-    buildInvoiceHTML(invoice);
+    buildInvoiceHTML(
+      invoice
+    );
 
 
   const printWindow =
@@ -2196,7 +2344,9 @@ function printInvoice(){
 <meta charset="UTF-8">
 
 <title>
-${escapeHTML(invoice.invoiceNo)}
+${escapeHTML(
+  invoice.invoiceNo
+)}
 - TCL Invoice
 </title>
 
@@ -2359,7 +2509,9 @@ body{
 
 <div class="invoice">
 
-${buildInvoiceHTML(invoice)}
+${buildInvoiceHTML(
+  invoice
+)}
 
 </div>
 
@@ -2401,9 +2553,11 @@ window.onafterprint = function(){
 
   printWindow.document.open();
 
+
   printWindow.document.write(
     printHTML
   );
+
 
   printWindow.document.close();
 
@@ -2509,11 +2663,16 @@ function whatsappInvoice(){
 
           (index + 1) +
           ". " +
-          (item.description || "Item") +
+          (
+            item.description ||
+            "Item"
+          ) +
           " × " +
           item.qty +
           " = Rs " +
-          money(item.amount)
+          money(
+            item.amount
+          )
 
         );
 
@@ -2528,7 +2687,9 @@ function whatsappInvoice(){
 
   lines.push(
     "Subtotal: Rs " +
-    money(invoice.subtotal)
+    money(
+      invoice.subtotal
+    )
   );
 
 
@@ -2536,7 +2697,9 @@ function whatsappInvoice(){
 
     lines.push(
       "Discount: - Rs " +
-      money(invoice.discount)
+      money(
+        invoice.discount
+      )
     );
 
   }
@@ -2546,7 +2709,9 @@ function whatsappInvoice(){
 
     lines.push(
       "Additional Charges: + Rs " +
-      money(invoice.additional)
+      money(
+        invoice.additional
+      )
     );
 
   }
@@ -2556,7 +2721,9 @@ function whatsappInvoice(){
 
     lines.push(
       "Exchange Deduction: - Rs " +
-      money(invoice.deduction)
+      money(
+        invoice.deduction
+      )
     );
 
   }
@@ -2564,7 +2731,9 @@ function whatsappInvoice(){
 
   lines.push(
     "*FINAL TOTAL: Rs " +
-    money(invoice.total) +
+    money(
+      invoice.total
+    ) +
     "*"
   );
 
@@ -2610,7 +2779,9 @@ function whatsappInvoice(){
    LOAD INVOICE
 ========================================================= */
 
-function loadInvoice(invoiceNo){
+function loadInvoice(
+  invoiceNo
+){
 
   const invoices =
     getInvoices();
@@ -2637,6 +2808,12 @@ function loadInvoice(invoiceNo){
 
   currentInvoiceNo =
     invoice.invoiceNo;
+
+
+  /* SHOW INVOICE NUMBER IN EDITABLE FIELD */
+
+  invoiceNumberEl.value =
+    invoice.invoiceNo || "";
 
 
   customerNameEl.value =
@@ -2677,22 +2854,24 @@ function loadInvoice(invoiceNo){
 
   items =
     (invoice.items || [])
-      .map(item => ({
+      .map(
+        item => ({
 
-        id:
-          Date.now() +
-          Math.random(),
+          id:
+            Date.now() +
+            Math.random(),
 
-        description:
-          item.description || "",
+          description:
+            item.description || "",
 
-        qty:
-          Number(item.qty) || 0,
+          qty:
+            Number(item.qty) || 0,
 
-        rate:
-          Number(item.rate) || 0
+          rate:
+            Number(item.rate) || 0
 
-      }));
+        })
+      );
 
 
   if(items.length === 0){
@@ -2722,7 +2901,9 @@ function loadInvoice(invoiceNo){
 
 
   invoicePreview.innerHTML =
-    buildInvoiceHTML(invoice);
+    buildInvoiceHTML(
+      invoice
+    );
 
 
   window.scrollTo({
@@ -2747,7 +2928,9 @@ function loadInvoice(invoiceNo){
    DELETE INVOICE
 ========================================================= */
 
-function deleteInvoice(invoiceNo){
+function deleteInvoice(
+  invoiceNo
+){
 
   if(
     !confirm(
@@ -2776,7 +2959,9 @@ function deleteInvoice(invoiceNo){
 
   localStorage.setItem(
     STORAGE_KEY,
-    JSON.stringify(invoices)
+    JSON.stringify(
+      invoices
+    )
   );
 
 
@@ -2785,7 +2970,11 @@ function deleteInvoice(invoiceNo){
     invoiceNo
   ){
 
-    currentInvoiceNo = "";
+    currentInvoiceNo =
+      "";
+
+    invoiceNumberEl.value =
+      "";
 
   }
 
@@ -2897,7 +3086,9 @@ function renderSavedInvoices(){
 
             &nbsp; | &nbsp;
 
-            Rs ${money(invoice.total)}
+            Rs ${money(
+              invoice.total
+            )}
 
           </div>
 
@@ -2958,24 +3149,40 @@ function clearForm(){
   }
 
 
-  currentInvoiceNo = "";
+  currentInvoiceNo =
+    "";
 
 
-  customerNameEl.value = "";
-
-  customerPhoneEl.value = "";
-
-  customerAddressEl.value = "";
+  invoiceNumberEl.value =
+    "";
 
 
-  discountEl.value = 0;
-
-  additionalChargesEl.value = 0;
-
-  exchangeDeductionEl.value = 0;
+  customerNameEl.value =
+    "";
 
 
-  notesEl.value = "";
+  customerPhoneEl.value =
+    "";
+
+
+  customerAddressEl.value =
+    "";
+
+
+  discountEl.value =
+    0;
+
+
+  additionalChargesEl.value =
+    0;
+
+
+  exchangeDeductionEl.value =
+    0;
+
+
+  notesEl.value =
+    "";
 
 
   setCurrentDateTime();
@@ -3043,3 +3250,4 @@ renderSavedInvoices();
 
 </body>
 </html>
+```
